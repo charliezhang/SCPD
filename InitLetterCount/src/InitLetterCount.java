@@ -20,11 +20,11 @@ public class InitLetterCount {
         String line = value.toString();
         StringTokenizer tokenizer = new StringTokenizer(line);
         while (tokenizer.hasMoreTokens()) {
-        	char c = tokenizer.nextToken().toLowerCase().charAt(0);
-        	// ignore non-alphabetic characters.
-        	if (!(c >= 'a' && c <= 'z')) { 
-        	  continue;
-        	}
+            char c = tokenizer.nextToken().toLowerCase().charAt(0);
+            // ignore non-alphabetic characters.
+            if (!(c >= 'a' && c <= 'z')) { 
+            	continue;
+            }
 
             word.set(String.valueOf(c));
             context.write(word, one);
