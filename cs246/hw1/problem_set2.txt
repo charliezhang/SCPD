@@ -1,0 +1,90 @@
+(a) [2pts]
+A drawback of using confidence is that it ignores P (B). Why is this a drawback? Explain
+why lift and conviction do not suffer from this drawback?
+
+The drawback is that, if B occurs frequently, conf(A → B) will always be high no matter what A is. In this case, conf can't describe the importance/interestness of association A->B.
+lift avoids this drawback by using S(B) as denominator, if B occurs frequently, life(A → B) will reduce.
+conv does not suffer from this drawback since it compares the cases where B is not present.
+
+
+(b) [2pts]
+A measure is symmetrical if measure(A → B) = measure(B → A). Are all the measures
+presented here symmetrical? Explain.
+
+NO.
+conf is not symmetrical:
+conf(A → B) = P(B | A) = S(A and B) / S(A)
+conf(B → A) = P(A | B) = S(A and B) / S(B)
+They're different.
+
+lift is symmetrical:
+lift(A → B) = conf(A → B) / S(B) = S(A and B) / S(A) / S(B)
+lift(B → A) = conf(B → A) / S(A) = S(A and B) / S(B) / S(A)
+They are the same.
+
+conv is not symmetrical:
+conv(A → B) = (1 - S(B)) / (1 - conf(A → B)) = (1 - S(B)) / (1 - S(A and B) / S(A)) != (1 - S(A)) / (1 - S(A and B) / S(B))
+
+
+(c) [3pts]
+A measure is desirable if its value is maximal for rules that hold 100% of the time (such rules
+are called perfect implications). This makes it easy to identify the best rules. Which of the
+above measures have this property? Explain why.
+
+
+
+(d) [5pts]
+List the top 5 rules in decreasing order of confidence score for itemsets of size 2. Do it also
+for itemsets of size 3. (Ties can be broken arbitrarily.)
+
+Top 5 rules by "conf" score (item_size=2):
+('DAI93865',) ==> ('FRO40251',), 1.000000
+('GRO85051',) ==> ('FRO40251',), 0.999176
+('GRO38636',) ==> ('FRO40251',), 0.990654
+('ELE12951',) ==> ('FRO40251',), 0.990566
+('DAI88079',) ==> ('FRO40251',), 0.986726
+
+Top 5 rules by "conf" score (item_size=3):
+('DAI31081', 'GRO85051') ==> ('FRO40251',), 1.000000
+('ELE26917', 'GRO85051') ==> ('FRO40251',), 1.000000
+('GRO85051', 'SNA80324') ==> ('FRO40251',), 1.000000
+('ELE20847', 'FRO92469') ==> ('FRO40251',), 1.000000
+('GRO73461', 'GRO85051') ==> ('FRO40251',), 1.000000
+
+
+(e) [5pts]
+List the top 5 rules in decreasing order of lift score for itemsets of size 2. Do it also for
+itemsets of size 3. (Ties can be broken arbitrarily.)
+
+Top 5 rules by "lift" score (item_size=2):
+('SNA44451',) ==> ('DAI18527',), 67.641876
+('SNA82528',) ==> ('DAI43868',), 50.945127
+('FRO17734',) ==> ('ELE28189',), 50.104399
+('GRO30912',) ==> ('ELE88583',), 47.411585
+('GRO89004',) ==> ('ELE25077',), 45.420108
+
+Top 5 rules by "lift" score (item_size=3):
+('FRO19221', 'SNA93860') ==> ('SNA53220',), 40.484449
+('DAI62779', 'DAI92600') ==> ('DAI42083',), 35.345477
+('DAI92600', 'ELE17451') ==> ('DAI42083',), 34.172245
+('DAI85309', 'ELE92920') ==> ('SNA18336',), 30.336175
+('DAI42083', 'DAI62779') ==> ('DAI92600',), 29.852461
+
+
+(f ) [5pts]
+List the top 5 rules in decreasing order of conviction score for itemsets of size 2. Do it also
+for itemsets of size 3. (Ties can be broken arbitrarily.)
+
+Top 5 rules by "conv" score (item_size=2):
+('DAI93865',) ==> ('FRO40251',), INF
+('GRO85051',) ==> ('FRO40251',), 1062.512182
+('GRO38636',) ==> ('FRO40251',), 93.648212
+('ELE12951',) ==> ('FRO40251',), 92.772995
+('DAI88079',) ==> ('FRO40251',), 65.933011
+
+Top 5 rules by "conv" score (item_size=3):
+('DAI31081', 'GRO85051') ==> ('FRO40251',), INF
+('ELE26917', 'GRO85051') ==> ('FRO40251',), INF
+('GRO85051', 'SNA80324') ==> ('FRO40251',), INF
+('ELE20847', 'FRO92469') ==> ('FRO40251',), INF
+('GRO73461', 'GRO85051') ==> ('FRO40251',), INF
