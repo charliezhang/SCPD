@@ -30,6 +30,12 @@ conv(A → B) = (1 - S(B)) / (1 - conf(A → B)) = (1 - S(B)) / (1 - S(A and B) 
 A measure is desirable if its value is maximal for rules that hold 100% of the time (such rules
 are called perfect implications). This makes it easy to identify the best rules. Which of the
 above measures have this property? Explain why.
+They're all desirable.
+since S(A and B) <= S(A), and S(A and B) == S(B) only when the rule A → B holds 100% of time.
+conf reaches maximal of 1 when  S(A and B) == S(B)
+life reaches maximal of 1 / S(B) when  S(A and B) == S(B) 
+conv reaches maximal of a infinite value when  S(A and B) == S(B)
+
 
 
 
@@ -88,3 +94,22 @@ Top 5 rules by "conv" score (item_size=3):
 ('GRO85051', 'SNA80324') ==> ('FRO40251',), INF
 ('ELE20847', 'FRO92469') ==> ('FRO40251',), INF
 ('GRO73461', 'GRO85051') ==> ('FRO40251',), INF
+
+(g) [2pts]
+From all the sets of rules you found in parts (d), (e) and (f), list all the rules (for itemsets
+of size 2) which hold 100% of the time (maximal for perfect implications)? Hint: Apply
+concepts from part (c).
+Rule:
+('DAI93865',) ==> ('FRO40251',),
+
+(h) [2pts]
+Which products would you recommend online on the page for product GRO85051? State
+which measure and rule you used for your recommendation.
+('GRO85051',) ==> ('FRO40251',), conf score 0.999176
+('GRO85051',) ==> ('FRO40251',), lift score 8.007055
+('GRO85051',) ==> ('FRO40251',), conv score 1062.512182
+
+(i) [2pts]
+Which products would you recommend if we know that the customer has browsed the follow-
+ing products: ELE17451, DAI92600, GRO85051? Does your recommendation change if
+a different measure is used?
