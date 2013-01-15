@@ -56,7 +56,7 @@ def gen_frequent_itemsets(baskets, max_size, thres):
 Generate top {num_rules} rules from all itemsets in {itemsets}
 given the scoring function defined by {func}.
 '''
-def print_rules(itemsets, supports, num_rules, func, sym):
+def print_rules(itemsets, supports, num_rules, func, sym, output):
   rules = []
   rules_set = {}
   for itemset in itemsets:
@@ -68,8 +68,12 @@ def print_rules(itemsets, supports, num_rules, func, sym):
   rules = sorted(rules, key=lambda x: -x[1])
   print 'Top %d rules by "%s" score:'\
       % ( num_rules, func.__name__)
+  if output: f = open(output, "a")
   for ((a, b), score) in rules[0:num_rules]:
-    print "%s ==> %s, %f" % (a, b, score)
+    out_str = "%s ==> %s, %f" % (a, b, score)
+    if output: f.write(out_str + "\n")
+    else: print out_str
+  f.close()
 
 '''
 Scoring functions.
@@ -96,6 +100,8 @@ def main():
                     help="Max num of items in itemset.")
   parser.add_option("-r", "--rules", dest="num_rules", default=5, type="int",
                     help="Num of rules to print.")
+  parser.add_option("-o", "--output", dest="output", default="", type="string",
+                    help="File to save all the rules.")
   (options, args) = parser.parse_args()
 
   if not options.fname:
@@ -107,7 +113,7 @@ def main():
     baskets, options.size, options.thres)
   for func, sym in ((conf, False), (lift, True), (conv, False)):
     for size in xrange(2, options.size + 1):
-      print_rules(itemsets[size], supports, options.num_rules, func, sym)
+      print_rules(itemsets[size], supports, options.num_rules, func, sym, options.output)
 
 if __name__ == '__main__':
   main()
