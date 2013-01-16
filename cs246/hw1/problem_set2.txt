@@ -11,7 +11,6 @@ conv does not suffer from this drawback since it compares the cases where B is n
 A measure is symmetrical if measure(A → B) = measure(B → A). Are all the measures
 presented here symmetrical? Explain.
 
-NO.
 conf is not symmetrical:
 conf(A → B) = P(B | A) = S(A and B) / S(A)
 conf(B → A) = P(A | B) = S(A and B) / S(B)
@@ -23,7 +22,7 @@ lift(B → A) = conf(B → A) / S(A) = S(A and B) / S(B) / S(A)
 They are the same.
 
 conv is not symmetrical:
-conv(A → B) = (1 - S(B)) / (1 - conf(A → B)) = (1 - S(B)) / (1 - S(A and B) / S(A)) != (1 - S(A)) / (1 - S(A and B) / S(B))
+conv(A → B) = (1 - S(B)) / (1 - conf(A → B)) = (1 - S(B)) / (1 - S(A and B) / S(A)) != (1 - S(A)) / (1 - S(A and B) / S(B)) !=  (1 - S(B)) / (1 - S(A and B) / S(A))
 
 
 (c) [3pts]
@@ -99,8 +98,7 @@ Top 5 rules by "conv" score (item_size=3):
 From all the sets of rules you found in parts (d), (e) and (f), list all the rules (for itemsets
 of size 2) which hold 100% of the time (maximal for perfect implications)? Hint: Apply
 concepts from part (c).
-Rule:
-('DAI93865',) ==> ('FRO40251',),
+The rule is: ('DAI93865',) ==> ('FRO40251',),
 
 (h) [2pts]
 Which products would you recommend online on the page for product GRO85051? State
@@ -113,3 +111,35 @@ which measure and rule you used for your recommendation.
 Which products would you recommend if we know that the customer has browsed the follow-
 ing products: ELE17451, DAI92600, GRO85051? Does your recommendation change if
 a different measure is used?
+I would recommend DAI42083  based on the rule:
+('DAI92600', 'ELE17451') => ('DAI42083',), lift: 34.171146
+('DAI92600', 'ELE17451') => ('DAI42083',), conf: 0.573529
+
+If use confidence score as the primary measure, the recommended product would be FRO40251 instead:
+('ELE17451', 'GRO85051') => ('FRO40251',), conf: 1.000000
+('ELE17451', 'GRO85051') => ('FRO40251',), lift: 8.013656
+
+
+(j) [2pts]
+Retailers commonly offer deals at the checkout counter at the store. The counter clerks are
+only able to suggest one or two recommendations. Which products would you recommend
+to a customer at the checkout counter if the customer has the following products in the cart:
+ELE92920, DAI93865, DAI88079, DAI23334? Would you make your recommendations
+based on 2- or 3-itemsets? Explain which would you choose and why.
+I would recommend DAI42083, FRO40251 and DAI62779 based on the rules below:
+
+('DAI92600', 'ELE17451') => ('DAI42083',), conv: 2.305472
+('DAI92600', 'ELE17451') => ('DAI42083',), conf: 0.573529
+('DAI92600', 'ELE17451') => ('DAI42083',), lift: 34.171146
+
+('ELE17451', 'GRO85051') => ('FRO40251',), conv: 875212943.243217
+('ELE17451', 'GRO85051') => ('FRO40251',), conf: 1.000000
+('ELE17451', 'GRO85051') => ('FRO40251',), lift: 8.013656
+
+('DAI23334', 'ELE92920') => ('DAI62779',), conf: 1.000000
+('DAI23334', 'ELE92920') => ('DAI62779',), conv: 785633837.443231
+('DAI23334', 'ELE92920') => ('DAI62779',), lift: 4.664917
+
+I made my recommendations based on 3-itemsets as they give more precise recommendations than 2-itemsets.
+
+

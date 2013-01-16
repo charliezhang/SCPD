@@ -11,7 +11,7 @@ def read(fname):
   f = open(fname)
   baskets = []
   for line in f:
-    baskets.append(sorted(line.strip().split(" ")))
+    baskets.append(sorted(list(set(line.strip().split(" ")))))
   return baskets
 
 '''
@@ -59,21 +59,26 @@ given the scoring function defined by {func}.
 def print_rules(itemsets, supports, num_rules, func, sym, output):
   rules = []
   rules_set = {}
+  rules_dict = {}
   for itemset in itemsets:
     for b in itertools.combinations(itemset, 1):
       a = tuple(item for item in itemset if item not in b)
       if sym and rules_set.has_key((b, a)): continue
       rules_set[(a, b)] = 1
-      rules.append(((a, b), func(a, b, itemset, supports)))
+      score = func(a, b, itemset, supports)
+      if (not rules_dict.has_key(a)) or rules_dict[a][1] < score:
+        rules_dict[a] = (b, score)
+      rules.append(((a, b), score))
   rules = sorted(rules, key=lambda x: -x[1])
   print 'Top %d rules by "%s" score:'\
       % ( num_rules, func.__name__)
   if output: f = open(output, "a")
   for ((a, b), score) in rules[0:num_rules]:
-    out_str = "%s ==> %s, %f" % (a, b, score)
+    out_str = "%s ===> %s, %s: %f" % (a, b, func.__name__, score)
     if output: f.write(out_str + "\n")
     else: print out_str
-  f.close()
+  if output: f.close()
+  return rules_dict
 
 '''
 Scoring functions.
@@ -102,6 +107,8 @@ def main():
                     help="Num of rules to print.")
   parser.add_option("-o", "--output", dest="output", default="", type="string",
                     help="File to save all the rules.")
+  parser.add_option("-q", "--query", dest="query", default="", type="string",
+                    help="File to save all the rules to be queried.")
   (options, args) = parser.parse_args()
 
   if not options.fname:
@@ -113,7 +120,16 @@ def main():
     baskets, options.size, options.thres)
   for func, sym in ((conf, False), (lift, True), (conv, False)):
     for size in xrange(2, options.size + 1):
-      print_rules(itemsets[size], supports, options.num_rules, func, sym, options.output)
+      c = print_rules(itemsets[size], supports, options.num_rules, func, sym, options.output)
+      if options.query:
+        f = open(options.query)
+        out = open(options.query + ".res", "a")
+        for line in f:
+          a = tuple(sorted(line.strip().split(" ")))
+          if c.has_key(a):
+            out.write("%s => %s, %s: %f\n" % (a, c[a][0], func.__name__, c[a][1]))
+        f.close()
+        out.close()
 
 if __name__ == '__main__':
   main()
