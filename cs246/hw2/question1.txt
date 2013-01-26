@@ -1,0 +1,16 @@
+(a)
+Si = Q^(-1/2)*R'*R*Q^(-1/2)
+Su = P^(-1/2)*R*R'*P^(-1/2)
+
+(b)
+Gamma = Su * R (user-user approach)
+Gamma = R * Si (item-item approach)
+
+(c)
+T = R * R'
+In bipartile graph,
+Tij equals to the number of common neighbours(on right side) of node i and node j(on left side).
+
+
+
+
