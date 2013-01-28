@@ -12,5 +12,12 @@ In bipartile graph,
 Tij equals to the number of common neighbours(on right side) of node i and node j(on left side).
 
 
+(d)
+indexes: 97    75    46    61    10
+
+
+97    75    61    46    83
+"FOX 28 News at 10pm"
+
 
 

@@ -1,0 +1,23 @@
+(a)
+1. We should use AA'. since A has size 100 * 10000, the computation for AA' is 100 * 10000 * 100 = 10^8, for A'A, it's 10000 * 100 * 10000 = 10^10
+
+2.
+We can compute V by solving the dominant equation.
+(A'A)*V = V * E * V' * V = V * E
+where E composes of the eigen values of A'A on it's diagonal.
+We can find the eigen values by solving |A'A - lamdba*I| = 0
+Then solve V from the equation (A'A)*V = V*E
+
+Similarly,
+(AA') * U = U * D * U' * U = U * D
+
+
+
+3. A = U*S*V'
+   A'*U = (V*S'*U')*U = V*S'
+
+(b)
+
+(c)
+
+
