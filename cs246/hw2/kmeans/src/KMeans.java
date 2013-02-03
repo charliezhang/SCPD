@@ -3,12 +3,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -83,44 +81,72 @@ public class KMeans {
 			int minIndex = -1;
 			for (int i = 0; i < centroids.size(); ++i) {
 				double d = KMeans.distance(centroids.get(i), p);
-				if (minIndex == -1 || d < minDist)
+				if (minIndex == -1 || d < minDist) {
+					minIndex = i;
+					minDist = d;
+				}
 			}
+			context.write(centroids.get(minIndex).toText(), value);
 		}
 	}
 
-	public static class Reduce extends Reducer<Text, Text, LongWritable, Text> {
+	public static class Reduce extends Reducer<Text, Text, Text, Text> {
 
 		@Override
-		public void reduce(Text key, Iterable<IntWritable> values,
-				Context context) throws IOException, InterruptedException {
-			int sum = 0;
-			for (IntWritable val : values) {
-				sum += val.get();
+		public void reduce(Text key, Iterable<Text> values, Context context)
+				throws IOException, InterruptedException {
+			List<Double> sum = null;
+			int nPoints = 0;
+			double cost = 0;
+			Point centroid = new Point(key);
+			for (Text val : values) {
+				++nPoints;
+				Point p = new KMeans.Point(val);
+				cost += KMeans.distance(centroid, p);
+				if (sum == null) {
+					sum = p.arr;
+				} else {
+					for (int i = 0; i < sum.size(); ++i) {
+						sum.set(i, sum.get(i) + p.arr.get(i));
+					}
+				}
+
 			}
-			context.write(key, new IntWritable(sum));
+			for (int i = 0; i < sum.size(); ++i) {
+				sum.set(i, sum.get(i) / nPoints);
+			}
+			context.write(new Text(), new Text(StringUtils.join(sum, " ") + ":"
+					+ cost));
 		}
 	}
 
 	public static final String ARG_CENTROID = "CENTROID";
+	public static final int NUM_ITERATIONS = 1;
 
 	public static void main(String[] args) throws Exception {
-		Configuration conf = new Configuration();
-		
-		conf.set(KMeans.ARG_CENTROID, )
-		Job job = new Job(conf, "WordCount");
-		job.setJarByClass(WordCount.class);
-		job.setOutputKeyClass(Text.class);
-		job.setOutputValueClass(IntWritable.class);
+		String baseDir = args[0];
+		for (int i = 1; i <= NUM_ITERATIONS; ++i) {
+			Configuration conf = new Configuration();
 
-		job.setMapperClass(Map.class);
-		job.setReducerClass(Reduce.class);
+			conf.set(ARG_CENTROID,
+					String.format("%s/r%d/part-r-00000", baseDir, i - 1));
+			Job job = new Job(conf, "KMeans");
+			job.setJarByClass(KMeans.class);
+			job.setOutputKeyClass(Text.class);
+			job.setOutputValueClass(Text.class);
 
-		job.setInputFormatClass(TextInputFormat.class);
-		job.setOutputFormatClass(TextOutputFormat.class);
+			job.setMapperClass(Map.class);
+			job.setReducerClass(Reduce.class);
 
-		FileInputFormat.addInputPath(job, new Path(args[0]));
-		FileOutputFormat.setOutputPath(job, new Path(args[1]));
+			job.setInputFormatClass(TextInputFormat.class);
+			job.setOutputFormatClass(TextOutputFormat.class);
 
-		job.waitForCompletion(true);
+			FileInputFormat.addInputPath(job,
+					new Path(String.format("%s/input", baseDir)));
+			FileOutputFormat.setOutputPath(job,
+					new Path(String.format("%s/r%d", baseDir, i)));
+
+			job.waitForCompletion(true);
+		}
 	}
 }
