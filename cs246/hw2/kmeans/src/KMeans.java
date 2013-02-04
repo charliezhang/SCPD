@@ -31,6 +31,7 @@ public class KMeans {
 		public List<Double> arr;
 
 		public Point(String str) {
+			arr = new ArrayList();
 			for (String s : str.split(" ")) {
 				arr.add(Double.parseDouble(s));
 			}
@@ -59,7 +60,7 @@ public class KMeans {
 			if (s == null || s.isEmpty()) {
 				break;
 			}
-			r.add(new KMeans.Point(s));
+			r.add(new KMeans.Point(s.split(":")[0]));
 		}
 		return r;
 	}
@@ -120,11 +121,30 @@ public class KMeans {
 		}
 	}
 
-	public static final String ARG_CENTROID = "CENTROID";
-	public static final int NUM_ITERATIONS = 1;
+	private static double computeCost(String file) throws IOException {
+		double cost = 0;
+		BufferedReader br = new BufferedReader(new FileReader(file));
+		while (true) {
+			String s = br.readLine();
+			if (s == null || s.isEmpty()) {
+				break;
+			}
+			cost += Double.parseDouble(s.split(":")[1]);
+		}
+		return cost;
+	}
 
+	public static final String ARG_CENTROID = "CENTROID";
+	public static final int NUM_ITERATIONS = 21;
+
+	/**
+	 * The output of each iteration is under: baseDir/r%d. The output contains
+	 * 10 lines, one centroid on each line, in the format CENTROID:COST
+	 * 
+	 */
 	public static void main(String[] args) throws Exception {
 		String baseDir = args[0];
+		List<Double> costs = new ArrayList();
 		for (int i = 1; i <= NUM_ITERATIONS; ++i) {
 			Configuration conf = new Configuration();
 
@@ -141,12 +161,20 @@ public class KMeans {
 			job.setInputFormatClass(TextInputFormat.class);
 			job.setOutputFormatClass(TextOutputFormat.class);
 
-			FileInputFormat.addInputPath(job,
-					new Path(String.format("%s/input", baseDir)));
+			FileInputFormat.addInputPath(job, new Path(baseDir + "/input"));
 			FileOutputFormat.setOutputPath(job,
 					new Path(String.format("%s/r%d", baseDir, i)));
 
 			job.waitForCompletion(true);
+
+			costs.add(computeCost(String.format("%s/r%d/part-r-00000", baseDir,
+					i)));
+
 		}
+		for (int i = 0; i < costs.size(); ++i) {
+			System.out.println(String.format("Cost in round %d: %f", i,
+					costs.get(i)));
+		}
+		System.out.println(StringUtils.join(costs, ","));
 	}
 }
