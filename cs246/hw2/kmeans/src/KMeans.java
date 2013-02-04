@@ -24,7 +24,7 @@ public class KMeans {
 			double d = a.arr.get(i) - b.arr.get(i);
 			r += d * d;
 		}
-		return Math.sqrt(r);
+		return r;
 	}
 
 	public static class Point {
@@ -57,7 +57,7 @@ public class KMeans {
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		while (true) {
 			String s = br.readLine();
-			if (s == null || s.isEmpty()) {
+			if (s == null || (s = s.trim()).isEmpty()) {
 				break;
 			}
 			r.add(new KMeans.Point(s.split(":")[0]));
