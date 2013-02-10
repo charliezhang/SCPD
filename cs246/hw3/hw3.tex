@@ -1,0 +1,31 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{CS246 Homework 3 Answers}
+\author{Charlie Zhang}
+\date{Feb 2013}
+
+\usepackage{natbib}
+\usepackage{float}
+\usepackage{graphicx}
+ \usepackage{indentfirst}
+\usepackage{mathtools}
+\linespread{1.3}
+
+\begin{document}
+
+\maketitle
+\section{Question 1 -- Latent Features for Recommendations}
+
+
+\subsection{(a)}
+$\epsilon_{iu} = r_{iu} - q_i * p_u^T$
+
+$q_i \leftarrow q_i + \eta(\epsilon_{iu}p_u - \lambda q_i)$
+
+$p_u \leftarrow p_u + \eta(\epsilon_{iu}q_i - \lambda p_u)$
+
+Where $\eta$ is the learning rate.
+
+\subsection{(b)}
+\end{document}
