@@ -28,4 +28,44 @@ $p_u \leftarrow p_u + \eta(\epsilon_{iu}q_i - \lambda p_u)$
 Where $\eta$ is the learning rate.
 
 \subsection{(b)}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{EAsOfIterationEta0002.jpg}
+\caption{ Error in first 40 iterations with $\eta=0.002$: }
+\label{}
+\end{figure}
+
+
+\subsection{(c)}
+True statements are: \\
+B, D, H
+
+
+\subsection{(d)}
+TODO
+
+\section{Question 2 -- PageRank Computation}
+\subsection{(a)}
+$r - r^{(k)} = \beta Mr - \beta Mr^{(k-1)} \\
+=\beta M(r - r^{(k-1)}) \\
+=\beta^2M^2(r - r^{(k-2)}) \\
+=... \\
+=\beta^kM^k(r - r^{(0)})$ \\
+$M$ is stochastic, $\|M^kr\|_1 <= 1, \|M^kr^{(0)}\|_1 <= 1$ \\
+So $\|r - r^{(k)}\|_1 <= \|\beta^k M^kr\|_1 + \|\beta^k M^kr^{(0)}\|_1 <= 2\beta^k$
+
+\subsection{(b)}
+Let $I$ be the number of iterations. \\
+$\|r - r^{(I)}\|_1<= 2\beta^I <= \delta$\\
+$I >= \log_\beta (\delta/2) = \frac{\log (2/\delta)}{\log (1/\beta)}$
+We need iterate through every edge one time for each iteration. So total running time is: \\
+$Im = m \frac{\log (2/\delta)}{\log (1/\beta)} = O({\frac{m}{\log (1/\beta)}})$
+
+
+
+\subsection{(c)}
+TODO
+
+\subsection{(d)}
+TODO
 \end{document}
