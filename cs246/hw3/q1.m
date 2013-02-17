@@ -88,7 +88,7 @@ end
   xlabel('K');
   ylabel('Error');
 
-     %}
+    %}   
   
   k = 10;
   I = 40;
@@ -103,6 +103,7 @@ end
   sum_u = zeros(max_n, 1);
   cnt = 0;
   sum = 0;
+  [v_i, v_u, v_r] = find(Rtest);
   for j = 1:size(v_u)
     u = v_u(j);
     i = v_i(j);
@@ -132,13 +133,66 @@ end
   E = [];
   for i=1:I
     [Q, P, b_u, b_i] = SGD2(Rtrain, Q, P, mu, b_u, b_i, k, lambda, eta);
-    e = error2(Rtrain, Q, P, mu, b_u, b_i, lambda)
+    e = error2(Rtrain, Q, P, mu, b_u, b_i, lambda);
     E = [E; e];
   end
   figure;
   plot(E)
   title(sprintf('n = %.3f', eta));
   xlabel('Num of iterations');
+  ylabel('Error');
+  
+
+  
+  I = 40;
+  eta = 0.03;
+  lambda = 0.0;
+  E_tr = [];
+  E_te = [];
+  for kk = 1:10
+    kk
+    [e1, e2] = train_and_eval2(Rtrain, Rtest, max_m, max_n, kk, I, lambda, eta);
+    e1
+    e2
+    E_tr = [E_tr; e1];
+    E_te = [E_te; e2];
+  end
+  figure;
+  plot(E_te)
+  title(sprintf('V2 Test error with lambda = %f', lambda));
+  xlabel('K');
+  ylabel('Error');
+  
+  figure;
+  plot(E_tr)
+  title(sprintf('V2 Train error with lambda = %f', lambda));
+  xlabel('K');
+  ylabel('Error');
+
+  
+  I = 40;
+  eta = 0.03;
+  lambda = 0.2;
+  E_tr = [];
+  E_te = [];
+  for kk = 1:10
+    kk
+    [e1, e2] = train_and_eval2(Rtrain, Rtest, max_m, max_n, kk, I, lambda, eta);
+    E_tr = [E_tr; e1];
+    E_te = [E_te; e2];
+    e1
+    e2
+  end
+  figure;
+  plot(E_te)
+  title(sprintf('V2 Test error with lambda = %f', lambda));
+  xlabel('K');
+  ylabel('Error');
+  
+  figure;
+  plot(E_tr)
+  title(sprintf('V2 Train error with lambda = %f', lambda));
+  xlabel('K');
   ylabel('Error');
   
 end
@@ -192,14 +246,47 @@ function [E_tr, E_te] = train_and_eval2(Rtrain, Rtest, max_m, max_n, k, I, lambd
   scalar = sqrt(5 / k);
   Q = rand(max_m, k, 'double') * scalar;
   P = rand(max_n, k, 'double') * scalar;
-  E = []
+  b_i = zeros(max_m, 1);
+  sum_i = zeros(max_m, 1);
+  b_u = zeros(max_n, 1);
+  sum_u = zeros(max_n, 1);
+  cnt = 0;
+  sum = 0;
+  [v_i, v_u, v_r] = find(Rtest);
+  for j = 1:size(v_u)
+    u = v_u(j);
+    i = v_i(j);
+    R_iu = v_r(j);
+    b_i(i) = b_i(i) + R_iu;
+    sum_i(i) = sum_i(i) + 1;
+    b_u(u) = b_u(u) + R_iu;
+    sum_u(u) = sum_u(u) + 1;
+    cnt = cnt + 1;
+    sum = sum + R_iu;
+  end
+  mu = sum / cnt;
+  for i=1:max_m
+    if sum_i(i) > 0
+      b_i(i) = b_i(i) ./ sum_i(i) - mu;
+    else
+      b_i(i) = 0;
+    end
+  end
+  for i=1:max_n
+    if sum_u(i) > 0
+      b_u(i) = b_u(i) ./ sum_u(i) - mu;
+    else
+      b_u(i) = 0;
+    end
+  end
+  E = [];
   for i=1:I
-    [Q, P] = SGD(Rtrain, Q, P, k, lambda, eta);
-    e = error(Rtrain, Q, P, lambda);
+    [Q, P, b_u, b_i] = SGD2(Rtrain, Q, P, mu, b_u, b_i, k, lambda, eta);
+    e = error2(Rtrain, Q, P, mu, b_u, b_i, lambda);
     E = [E; e];
   end
-  E_tr = error(Rtrain, Q, P, 0);
-  E_te = error(Rtest, Q, P, 0);
+  E_tr = error2(Rtrain, Q, P, mu, b_u, b_i, 0);
+  E_te = error2(Rtest, Q, P, mu, b_u, b_i, 0);
 end
 
 %mu: universal bias. b_u: User bias. b_i: Item bias.
