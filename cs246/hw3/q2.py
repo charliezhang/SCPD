@@ -52,10 +52,10 @@ def mc(G, R):
 def errors(r_true, r, K):
   sum = 0
   errs = []
-  sorted_r = sorted(r.items(), key=lambda x: -x[1])
+  sorted_r = sorted(r_true.items(), key=lambda x: -x[1])
   for i in xrange(1, K + 1):
     k, v = sorted_r[i - 1]
-    sum += abs(r_true[k] - v)
+    sum += abs(r[k] - v)
     errs.append(sum / i)
   return errs
 

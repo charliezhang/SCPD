@@ -12,7 +12,10 @@
 \usepackage{mathtools}
 \usepackage{setspace}
 \linespread{1.8}
-
+\newenvironment{myenv}[1]
+  {\begin{spacing}{#1}}
+  {\end{spacing}}
+  
 \begin{document}
 
 \maketitle
@@ -73,6 +76,13 @@ True statements are: \textbf{B, D, H}
 Update model as:\\
 $R_{iu} = \mu + b_u + b_i + q_i\cdot p_u^T$ \\
 And plot the following:\\
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{EAsOfK-V2.jpg}
+\caption{ Error in first 40 iterations with $\eta=0.03$: }
+\label{}
+\end{figure}
 
 \begin{figure}[H]
 \centering
@@ -142,10 +152,10 @@ Power Iteration CPU time(40 Iterations): 13.341 ms\\
 MC Algorithm with R=1, \\
 \indent CPU time: 0.701 ms\\
 \indent Average errors at Top 10, 30, 50, 100:\\
-\indent 0.0105159730738 
-0.00633750065262
-0.00494344355183
-0.003379381387\\
+\indent 0.00599973764402
+0.00441903540367
+0.00382855792613
+0.00278851518353\\
 
 \begin{figure}[H]
 \centering
@@ -157,10 +167,10 @@ MC Algorithm with R=1, \\
 MC Algorithm with R=3, \\
 \indent CPU time: 1.800 ms\\
 \indent Average errors at Top 10, 30, 50, 100:\\
-\indent 0.0037870724757
-0.00257129081513
-0.00236735885639
-0.00172362198745 \\
+\indent 0.00286852638452
+0.00230089827846
+0.00215804468585
+0.00161800054821 \\
 
 \begin{figure}[H]
 \centering
@@ -172,10 +182,10 @@ MC Algorithm with R=3, \\
 MC Algorithm with R=5, \\
 \indent CPU time: 2.577 ms\\
 \indent Average errors at Top 10, 30, 50, 100:\\
-\indent 0.00179317662526
-0.00178955763098
-0.00148395219055
-0.00119068364523\\
+\indent 0.00180054177408
+0.00186604175378
+0.00156090753574
+0.00123437019707\\
 
 \begin{figure}[H]
 \centering
@@ -183,5 +193,403 @@ MC Algorithm with R=5, \\
 \caption{ Error at Top K, R = 5}
 \label{}
 \end{figure}
+
+\section{Question 3 -- Similarity Ranking}
+\subsection{(a)}
+$s_A(camera, phone) = 0.343$\\
+$s_A(camera, printer) = 0.0$\\
+
+Intermediate results (Nodes are indexed based on the order in graph, e.g. 'cameras' == 1, 'phones' == 2): \\
+\begin{myenv}{0.8}
+Round 1:\\ 
+$s_A$:\\
+(1, 2): 0.133333 \\
+(1, 3): 0.000000 \\
+(3, 3): 1.000000 \\
+(2, 3): 0.000000 \\
+(2, 2): 1.000000 \\
+(1, 1): 1.000000 \\
+$s_B$:\\
+(1, 2): 0.000000 \\
+(1, 3): 0.000000 \\
+(3, 3): 1.000000 \\
+(4, 5): 0.000000 \\
+(4, 4): 1.000000 \\
+(5, 5): 1.000000 \\
+(1, 4): 0.000000 \\
+(2, 4): 0.400000 \\
+(1, 5): 0.000000 \\
+(2, 3): 0.400000 \\
+(2, 2): 1.000000 \\
+(2, 5): 0.400000 \\
+(3, 4): 0.000000 \\
+(1, 1): 1.000000 \\
+(3, 5): 0.800000 \\
+Round 2:\\ 
+$s_A$:\\
+(1, 2): 0.293333 \\
+(1, 3): 0.000000 \\
+(3, 3): 1.000000 \\
+(2, 3): 0.000000 \\
+(2, 2): 1.000000 \\
+(1, 1): 1.000000 \\
+$s_B$:\\
+(1, 2): 0.000000 \\
+(1, 3): 0.000000 \\
+(3, 3): 1.000000 \\
+(4, 5): 0.106667 \\
+(4, 4): 1.000000 \\
+(5, 5): 1.000000 \\
+(1, 4): 0.000000 \\
+(2, 4): 0.453333 \\
+(1, 5): 0.000000 \\
+(2, 3): 0.453333 \\
+(2, 2): 1.000000 \\
+(2, 5): 0.453333 \\
+(3, 4): 0.106667 \\
+(1, 1): 1.000000 \\
+(3, 5): 0.800000 \\
+Round 3:\\ 
+$s_A$:\\
+(1, 2): 0.343111 \\
+(1, 3): 0.000000 \\
+(3, 3): 1.000000 \\
+(2, 3): 0.000000 \\
+(2, 2): 1.000000 \\
+(1, 1): 1.000000 \\
+$s_B$:\\
+(1, 2): 0.000000 \\
+(1, 3): 0.000000 \\
+(3, 3): 1.000000 \\
+(4, 5): 0.234667 \\
+(4, 4): 1.000000 \\
+(5, 5): 1.000000 \\
+(1, 4): 0.000000 \\
+(2, 4): 0.517333 \\
+(1, 5): 0.000000 \\
+(2, 3): 0.517333 \\
+(2, 2): 1.000000 \\
+(2, 5): 0.517333 \\
+(3, 4): 0.234667 \\
+(1, 1): 1.000000 \\
+(3, 5): 0.800000 \\
+\end{myenv}
+
+\subsection{(b)}
+Similarity equation incorporating link weights:\\
+$s_A(X, Y) = C1\frac{ 
+  \sum\limits_{i=1}^{|O(X)|} \sum\limits_{j=1}^{|O(Y)|} 
+    s_B(O_i(X), O_j(Y))\cdot W_i(X)\cdot W_j(Y)
+  }{
+   \sum\limits_{i=1}^{|O(X)|} \sum\limits_{j=1}^{|O(Y)|}
+    W_i(X)\cdot W_j(Y)
+  } $ \\
+Where $W_i(X)$ is the weight of the $i_{th}$ edge originating from $X$.
+Similarly, we define $s_B$ as following: \\
+$s_B(x, y) = C2\frac{ 
+  \sum\limits_{i=1}^{|I(x)|} \sum\limits_{j=1}^{|I(y)|} 
+    s_A(I_i(x), I_j(y))\cdot w_i(x)\cdot w_j(y)
+  }{
+    \sum\limits_{i=1}^{|I(x)|} \sum\limits_{j=1}^{|I(y)|} 
+    w_i(x)\cdot w_j(y)
+  } $ \\
+Where $w_i(x)$ is the weight of the $i_{th}$ edge originating from $x$.
+
+\subsection{(c)}
+In $K_{2,1}$, $s_A(1, 2) = 0.512$ \\
+In $K_{2,2}$, $s_A(1, 2) = 0.256$ \\
+
+Intermediate results for $K_{2,1}$: \\
+\begin{myenv}{0.8}
+Round 1:\\ 
+$s_A$:\\
+(1, 2): 0.800000 \\
+(1, 1): 1.000000 \\
+(2, 2): 1.000000 \\
+$s_B$:\\
+(1, 1): 1.000000 \\
+Round 2:\\ 
+$s_A$:\\
+(1, 2): 0.800000 \\
+(1, 1): 1.000000 \\
+(2, 2): 1.000000 \\
+$s_B$:\\
+(1, 1): 1.000000 \\
+Round 3:\\ 
+$s_A$:\\
+(1, 2): 0.800000 \\
+(1, 1): 1.000000 \\
+(2, 2): 1.000000 \\
+$s_B$:\\
+(1, 1): 1.000000 \\
+\end{myenv}
+
+Intermediate results for $K_{2,2}$: \\
+
+\begin{myenv}{0.8}
+Round 1:\\ 
+$s_A$:\\
+(1, 2): 0.400000 \\
+(1, 1): 1.000000 \\
+(2, 2): 1.000000 \\
+$s_B$:\\
+(1, 2): 0.400000 \\
+(1, 1): 1.000000 \\
+(2, 2): 1.000000 \\
+Round 2:\\ 
+$s_A$:\\
+(1, 2): 0.560000 \\
+(1, 1): 1.000000 \\
+(2, 2): 1.000000 \\
+$s_B$:\\
+(1, 2): 0.560000 \\
+(1, 1): 1.000000 \\
+(2, 2): 1.000000 \\
+Round 3:\\ 
+$s_A$:\\
+(1, 2): 0.624000 \\
+(1, 1): 1.000000 \\
+(2, 2): 1.000000 \\
+$s_B$:\\
+(1, 2): 0.624000 \\
+(1, 1): 1.000000 \\
+(2, 2): 1.000000 \\
+\end{myenv}
+
+\subsection{(d)}
+TODO
+
+\subsection{(e)}
+TODO
+
+\section{Question 4 -- Dense Communities in Networks}
+\subsection{(a)}
+\subsubsection{(i)}
+Suppose $|A(S)| < \frac{\epsilon}{1+\epsilon}|S|$, \\
+We denote $S\backslash A(S)$ as $B(S)$ \\
+Then $|B(S)| = |\{i \in S | deg_s(i) > 2(1 + \epsilon)\rho(S)\}| > \frac{1}{1 + \epsilon}|S|$ \\
+$|E[B(S)]| \ge |B(S)| \cdot 2(1 + \epsilon)\rho(S)/2 > \frac{1}{1 + \epsilon}|S| \cdot (1 + \epsilon)\frac{|E[S]|}{|S|} = |E[S]|$, which is impossible. \\
+So $|A(S)| \ge \frac{\epsilon}{1+\epsilon}|S|$
+
+\subsubsection{(ii)}
+We denote $S$ in the $i_{th}$ iteration as $S_i$\\
+Based on the proof in $\textbf{i}$, we have: $|S_{i+1}| < \frac{1}{1 + \epsilon}|S|$ \\
+$|S_k| < \frac{1}{(1 + \epsilon)^k}|S| = \frac{1}{(1 + \epsilon)^k}n$ \\
+ $S_k \ne  \emptyset$, So $|S_k| \ge 1$, $k < log_{1+\epsilon}(n)$
+ 
+ \subsection{(b)}
+ \subsubsection{(i)}
+ If $\exists v \in S^* | deg_{S^*}(v) < \rho^*(G)$ \\
+We can remove $v$ from $S^*$, let the resulting set be $S^\prime = S^*\backslash \{v\}$ \\
+$\rho(S^\prime) = \frac{|E[S^\prime]|}{|S^\prime|} = \frac{|E[S^*]| - deg_{S^*}(v)}{|S^*| - 1}$ \\
+Since $deg_{S^*}(v) < \rho^*(G) = \frac{|E[S^*]|}{|S^*|}$, \\
+$\rho(S^\prime) = \frac{|E[S^*]| - deg_{S^*}(v)}{|S^*| - 1} > \frac{|E[S^*]|}{|S^*|} $ \\
+$S^\prime$ is 'denser' than $S^*$. Which is contrary to the statement that $S^*$ is the densest subgrapgh of $G$. \\
+So such $v$ doesn't exist.
+
+ \subsubsection{(ii)}
+In the first iteration of the while loop in which there exists a node $v \in S^* \cap A(S)$, Since $v \in S^*$, base on proof in $\textbf{i}$, we have $deg_{S^*}(v) \ge \rho^*(G)$ \\
+Since $v \in A(S)$, we have $deg_{S}(v) \le 2(1+\epsilon)\rho(S)$ \\
+$A(S) \in S$, So $S^* \cap A(S) \in S$, So $deg_{S^*}(v) \le deg_S(v)$ \\
+$2(1+\epsilon)\rho(S) \ge deg_{S}(v) \ge deg_{S^*}(v) \ge \rho^*(G)$ \\
+In conclusion, $2(1+\epsilon)\rho(S) \ge \rho^*(G)$
+
+ \subsubsection{(iii)}
+There should be at least 1 iteration (Assume in $j_{th}$ iteration) in which there exist node $v$ such that $v \in S^* \cap A(S)$. \\
+Then $2(1+\epsilon)\rho(S_j) \ge \rho^*(G)$ \\
+$\rho(\bar S) = \max\limits_{i=1}^{Num Iter}\{ \rho(S_i)\} \ge \rho(S_j) \ge \frac{1}{2(1+\epsilon)}\rho^*(G)$
+
+ \subsection{(c)}
+  \subsubsection{(i)}
+ Number of iterations when $\epsilon = \{0.1, 0.5, 1, 2\}$ are: \\
+  \{7, 5, 4, 3\}
+ Corresponding theoretical bounds are: \\
+ \{137, 32, 18, 11\}
+ 
+
+   \begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{q4-NumIterations.jpg}
+\caption{ Num iterations and bounds }
+\label{}
+\end{figure}
+
+\subsubsection{(ii)}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{q4-RhoSi.jpg}
+\caption{ $\rho(S_i)$ as of $i$ }
+\label{}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{q4-ESi.jpg}
+\caption{ $|E(S_i)|$ as of $i$ }
+\label{}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{q4-Si.jpg}
+\caption{ $|S_i|$ as of $i$ }
+\label{}
+\end{figure}
+
+\subsubsection{(iii)}
+The Graph become empty after removing 9 iterations. (After 9 dense communities being found) \\
+The plot of $\rho(\bar S_j), |E[\bar S_j]|$ and $|\bar S_j|$: \\
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{q4c-rho.jpg}
+\caption{ $\rho(\bar S_j)$ as of $j$}
+\label{}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{q4c-esi.jpg}
+\caption{ $|E[\bar S_j]|$ as of $j$}
+\label{}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{q4c-si.jpg}
+\caption{ $|\bar S_j|$ as of $j$}
+\label{}
+\end{figure}
+
+The code:
+
+\begin{myenv}{0.8}
+\begin{verbatim}
+from collections import defaultdict
+import copy
+import itertools
+from optparse import OptionParser
+import random
+import sets
+import sys
+import time
+
+def preprocess(graph_file):
+  f = open(graph_file)
+  V = sets.Set()
+  num_edge = 0
+  for line in f:
+    a, b = line.strip().split('\t')
+    if a not in V:
+      V.add(a)
+    if b not in V:
+      V.add(b)
+    num_edge += 1
+  f.close()
+  return V, num_edge
+
+def count_edge(graph_file, S):
+  f = open(graph_file)
+  count = 0
+  for line in f:
+    a, b = line.strip().split('\t')
+    if (a in S) and (b in S):
+      count += 1
+  f.close()
+  return count
+
+def find_dense(graph_file, eps, removed=None):
+  V, e = preprocess(graph_file)
+  if removed:
+    V.difference_update(removed)
+    if len(V) == 0:
+      return None, None, None, None, None
+  S_bar = copy.copy(V)
+  rho_S_bar = float(e) / len(V)
+  S = copy.copy(V)
+  num_iter = 0
+  list_rho = []
+  list_num_edge = []
+  list_size_s = []
+  while len(S) > 0:
+    num_iter += 1
+    deg = defaultdict(int)
+    num_edge = 0
+    f = open(graph_file)
+    for line in f:
+      a, b = line.strip().split('\t')
+      if removed and ((a in removed) or (b in removed)):
+        continue
+      if (a not in S) or (b not in S):
+        continue
+      deg[a] += 1
+      deg[b] += 1
+      num_edge += 1
+    f.close()
+    rho_S = float(num_edge) / len(S)
+    list_rho.append(rho_S)
+    list_num_edge.append(num_edge)
+    list_size_s.append(len(S))
+    A = sets.Set()
+    num_edge_remove = 0
+    for v in S:
+      if deg[v] <= 2 * (1 + eps) * rho_S:
+        A.add(v)
+        num_edge_remove += deg[v]
+            num_edge_remove /= 2
+    S.difference_update(A)
+    if len(S) == 0:
+      break
+    rho_S = float(num_edge - num_edge_remove) / len(S)
+    if rho_S > rho_S_bar:
+      rho_S_bar = rho_S
+      S_bar = copy.copy(S)
+  return S_bar, num_iter, list_rho, list_num_edge, list_size_s
+
+def main():
+  parser = OptionParser()
+  parser.add_option("-f", "--file", dest="file", type="string",
+                    help="File containing the graph.")
+  (options, args) = parser.parse_args()
+
+  for eps in [0.05, 0.1, 0.5, 1, 2]:
+    S_bar, num_iter, list_rho, list_num_edge, list_size_s = find_dense(options.file, eps)
+    print "Eps: %f, num iteration: %d" % (eps, num_iter)
+    print list_rho
+    print list_num_edge
+    print list_size_s
+
+  removed = sets.Set()
+  eps = 0.05
+  list_rho = []
+  list_num_edge = []
+  list_size_s = []
+  for j in xrange(1, 21):
+    print "%d-th iter" % j
+    S_bar, t1, t2, t3, t4 = find_dense(options.file, eps, removed)
+    if not S_bar:
+      print "Remaining graph is empty"
+      break
+    num_edge = count_edge(options.file, S_bar)
+    print "rho: %f" % (float(num_edge) / len(S_bar))
+    list_rho.append(float(num_edge) / len(S_bar))
+    print "num_edge: %d" % num_edge
+    list_num_edge.append(num_edge)
+    print "size_S_bar: %d" % len(S_bar)
+    list_size_s.append(len(S_bar))
+    removed = removed.union(S_bar)
+    print S_bar
+  print list_rho
+  print list_num_edge
+  print list_size_s
+
+if __name__ == '__main__':
+  main()
+\end{verbatim}
+\end{myenv}
 
 \end{document}
