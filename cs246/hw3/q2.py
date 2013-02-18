@@ -3,6 +3,7 @@ import itertools
 from optparse import OptionParser
 import random
 import sys
+import time
 
 BETA = 0.8
 N = 100
@@ -52,11 +53,10 @@ def errors(r_true, r, K):
   sum = 0
   errs = []
   sorted_r = sorted(r.items(), key=lambda x: -x[1])
-  print sorted_r
-  for k in xrange(1, K + 1):
-    k, v = sorted_r[k - 1]
+  for i in xrange(1, K + 1):
+    k, v = sorted_r[i - 1]
     sum += abs(r_true[k] - v)
-    errs.append(sum / k)
+    errs.append(sum / i)
   return errs
 
 def main():
@@ -66,14 +66,17 @@ def main():
   (options, args) = parser.parse_args()
 
   G = load_graph(options.file) 
-  
+  start = time.clock()
   r = power_iter(G, 40)
-
-  r2 = mc(G, 1)
-  print r2
-
-  errs = errors(r, r2, 100)
-  print errs
+  print "Power Iteration CPU time: %f" % (time.clock() - start)
+  for R in [1, 3, 5]:
+    start = time.clock()
+    r1 = mc(G, R)
+    print "MC(R=%d) CPU time: %f" % (R, time.clock() - start)
+    errs = errors(r, r1, N)
+    print errs
+    for k in [10, 30, 50, N]:
+      print errs[k - 1]
 
 if __name__ == '__main__':
   main()

@@ -136,4 +136,52 @@ So $E[\tilde{r_j}] = r_j$
 \subsection{(d)}
 Expected run time of one random walker $E[w] = \sum_{i=1}^{\infty}i(1-\beta)\beta^{i-1}=\frac{1}{1-\beta}$\\
 Expected running time of MC algorithm is: $E[w]\cdot nR = \frac{nR}{1-\beta}$
+
+\subsection{(d)}
+Power Iteration CPU time(40 Iterations): 13.341 ms\\
+MC Algorithm with R=1, \\
+\indent CPU time: 0.701 ms\\
+\indent Average errors at Top 10, 30, 50, 100:\\
+\indent 0.0105159730738 
+0.00633750065262
+0.00494344355183
+0.003379381387\\
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{q2-ErrorTopK-R1.jpg}
+\caption{ Error at Top K, R = 1}
+\label{}
+\end{figure}
+
+MC Algorithm with R=3, \\
+\indent CPU time: 1.800 ms\\
+\indent Average errors at Top 10, 30, 50, 100:\\
+\indent 0.0037870724757
+0.00257129081513
+0.00236735885639
+0.00172362198745 \\
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{q2-ErrorTopK-R3.jpg}
+\caption{ Error at Top K, R = 3}
+\label{}
+\end{figure}
+
+MC Algorithm with R=5, \\
+\indent CPU time: 2.577 ms\\
+\indent Average errors at Top 10, 30, 50, 100:\\
+\indent 0.00179317662526
+0.00178955763098
+0.00148395219055
+0.00119068364523\\
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{q2-ErrorTopK-R5.jpg}
+\caption{ Error at Top K, R = 5}
+\label{}
+\end{figure}
+
 \end{document}
