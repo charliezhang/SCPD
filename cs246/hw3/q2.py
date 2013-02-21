@@ -29,8 +29,8 @@ def power_iter(G, iter):
       deg = len(dests)
       for dest in dests:
         r_new[dest] += r[s] / deg
-    for k, v in r_new.items():
-      r_new[k] = v * BETA + (1 - BETA) / 100
+    for k in xrange(1, N + 1):
+      r_new[k] = r_new[k] * BETA + (1 - BETA) / N
     r = r_new
   return r
 
@@ -53,6 +53,8 @@ def errors(r_true, r, K):
   sum = 0
   errs = []
   sorted_r = sorted(r_true.items(), key=lambda x: -x[1])
+  print "Sorted:"
+  print sorted_r
   for i in xrange(1, K + 1):
     k, v = sorted_r[i - 1]
     sum += abs(r[k] - v)
@@ -62,16 +64,18 @@ def errors(r_true, r, K):
 def main():
   parser = OptionParser()
   parser.add_option("-f", "--file", dest="file", type="string",
-                    help="Input file containing user browing history.")
+                    help="File containing the graph.")
   (options, args) = parser.parse_args()
 
   G = load_graph(options.file) 
   start = time.clock()
   r = power_iter(G, 40)
   print "Power Iteration CPU time: %f" % (time.clock() - start)
+  print r
   for R in [1, 3, 5]:
     start = time.clock()
     r1 = mc(G, R)
+    print r1
     print "MC(R=%d) CPU time: %f" % (R, time.clock() - start)
     errs = errors(r, r1, N)
     print errs
