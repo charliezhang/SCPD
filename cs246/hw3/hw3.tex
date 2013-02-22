@@ -213,6 +213,7 @@ MC Algorithm with R=5, \\
 $s_A(camera, phone) = 0.343$\\
 $s_A(camera, printer) = 0.0$\\
 
+If first iteration, $s_A(camera, phone) = \\ C1\frac{s_B(nokia, nokia) +  s_B(nokia, apple) + s_B(kodak, nokia) + s_B(kodak, apple) + s_B(cannon, nokia) + s_B(cannon, apple)}{6} = \\ C1\frac{1 + 0 + 0 + 0 + 0 + 0}{6} = 0.133$ \\
 Intermediate results (Nodes are indexed based on the order in graph, e.g. 'cameras' == 1, 'phones' == 2): \\
 \begin{myenv}{0.8}
 Round 1:\\ 
@@ -313,7 +314,17 @@ Where $w_i(x)$ is the weight of the $i_{th}$ edge originating from $x$.
 In $K_{2,1}$, $s_A(1, 2) = 0.800$ \\
 In $K_{2,2}$, $s_A(1, 2) = 0.624$ \\
 
-Intermediate results for $K_{2,1}$: \\
+For $K_{2,1}$: \\
+
+If first iteration, \\
+$s_A(1, 2) =  \\ C1\frac{s_B(1, 1)}{1} =\\ C1\frac{1}{1} = 0.8$ \\
+$s_A(1, 1) =  1$ \\
+$s_A(2, 2) =  1$ \\
+$s_B(1, 1) =  1$ \\
+
+
+Intermediate results: \\
+
 \begin{myenv}{0.8}
 Round 1:\\ 
 $s_A$:\\
@@ -338,7 +349,20 @@ $s_B$:\\
 (1, 1): 1.000000 \\
 \end{myenv}
 
-Intermediate results for $K_{2,2}$: \\
+For $K_{2,2}$: \\
+
+If first iteration, \\
+$s_A(1, 2) =  \\ C1\frac{s_B(1, 1) + s_B(1, 2) + s_B(2, 1) + s_B(2, 2)}{4} =\\ C1\frac{1 + 0 + 0 + 1}{4} = 0.4$ \\
+$s_A(1, 1) =  1$ \\
+$s_A(2, 2) =  1$ \\
+$s_A(2, 1) =  s_A(1, 2) = 0.4$ \\
+
+$s_B(1, 2) =  \\ C2\frac{s_A(1, 1) + s_A(1, 2) + s_A(2, 1) + s_A(2, 2)}{4} =\\ C2\frac{1 + 0 + 0 + 1}{4} = 0.4$ \\
+$s_B(1, 1) =  1$ \\
+$s_B(2, 2) =  1$ \\
+$s_B(2, 1) =  s_B(1, 2) = 0.4$ \\
+
+Intermediate results: \\
 
 \begin{myenv}{0.8}
 Round 1:\\ 

@@ -93,7 +93,7 @@ end
   k = 10;
   I = 40;
   lambda = 0.2;
-  eta = 0.005;
+  eta = 0.03;
   scalar = sqrt(5 / k);
   Q = rand(max_m, k, 'double') * scalar;
   P = rand(max_n, k, 'double') * scalar;
@@ -141,7 +141,6 @@ end
   title(sprintf('n = %.3f', eta));
   xlabel('Num of iterations');
   ylabel('Error');
-  return %TODO
 
   
   I = 40;

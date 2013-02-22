@@ -7,12 +7,14 @@ import sets
 import sys
 import time
 
-def preprocess(graph_file):
+def preprocess(graph_file, removed):
   f = open(graph_file)
   V = sets.Set()
   num_edge = 0
   for line in f:
     a, b = line.strip().split('\t')
+    if removed and ((a in removed) or (b in removed)):
+      continue
     if a not in V:
       V.add(a)
     if b not in V:
@@ -32,7 +34,7 @@ def count_edge(graph_file, S):
   return count
 
 def find_dense(graph_file, eps, removed=None):
-  V, e = preprocess(graph_file)
+  V, e = preprocess(graph_file, removed)
   if removed:
     V.difference_update(removed)
     if len(V) == 0:
@@ -60,9 +62,7 @@ def find_dense(graph_file, eps, removed=None):
       num_edge += 1
     f.close()
     rho_S = float(num_edge) / len(S)
-    list_rho.append(rho_S)
-    list_num_edge.append(num_edge)
-    list_size_s.append(len(S))
+
     A = sets.Set()
     num_edge_remove = 0
     for v in S:
@@ -70,13 +70,18 @@ def find_dense(graph_file, eps, removed=None):
         A.add(v)
         num_edge_remove += deg[v]
     num_edge_remove /= 2
+    num_edge -= num_edge_remove
     S.difference_update(A)
     if len(S) == 0:
       break
-    rho_S = float(num_edge - num_edge_remove) / len(S)
+    rho_S = float(num_edge) / len(S)
     if rho_S > rho_S_bar:
       rho_S_bar = rho_S
       S_bar = copy.copy(S)
+    
+    list_rho.append(rho_S)
+    list_num_edge.append(num_edge)
+    list_size_s.append(len(S))
   return S_bar, num_iter, list_rho, list_num_edge, list_size_s
 
 def main():
@@ -85,7 +90,8 @@ def main():
                     help="File containing the graph.")
   (options, args) = parser.parse_args()
 
-  for eps in [0.05, 0.1, 0.5, 1, 2]:
+  #for eps in [0.05, 0.1, 0.5, 1, 2]:
+  for eps in [0.05]:
     S_bar, num_iter, list_rho, list_num_edge, list_size_s = find_dense(options.file, eps)
     print "Eps: %f, num iteration: %d" % (eps, num_iter)
     print list_rho
