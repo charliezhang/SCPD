@@ -394,6 +394,26 @@ $s_B$:\\
 (2, 2): 1.000000 \\
 \end{myenv}
 
+\subsection{(d)}
+Update the equations as:\\
+$N_A(X, Y) = |O(X)| * |O(Y)|, \\
+s_A(X, Y) = \frac{ (1-(1-C1)^{N_A(X, Y)})}
+ {N_A(X, Y)} \sum\limits_{i=1}^{|O(X)|} \sum\limits_{j=1}^{|O(Y)|} 
+    s_B(O_i(X), O_j(Y))$ \\
+
+$N_B(x, y) = |I(x)| * |I(y)|, \\
+s_B(x, y) = \frac{ (1-(1-C2)^{N_B(x, y)})}
+ {N_B(X, Y)} \sum\limits_{i=1}^{|I(x)|} \sum\limits_{j=1}^{|I(y)|} 
+    s_A(I_i(x), I_j(y))$ \\
+    
+The algorithm will converge. And final values are symmetric, and between [0, 1](Replaced C1/C2 with another const $(1-(1-C1)^{N_A(X, Y)})$ and $(1-(1-C1)^{N_A(X, Y)})$ that varies depending on the number of supporting evidences. More support, higher C1/C2) \\
+
+Converged value of $s_A(1, 2)$ for $K_{2,1}$: \\
+ 0.49107427590144004 \\
+and for $K_{2,2}$: \\
+0.996805111821086 \\
+
+The algorithm assigns higher score for $s_A(1, 2)$ in $K_{2,2}$ since there are more support.
 
 \section{Question 4 -- Dense Communities in Networks}
 \subsection{(a)}
