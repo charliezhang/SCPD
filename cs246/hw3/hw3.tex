@@ -75,6 +75,20 @@ True statements are: \textbf{B, D, H}
 \subsection{(d)}
 Update model as:\\
 $R_{iu} = \mu + b_u + b_i + q_i\cdot p_u^T$ \\
+
+The update equations are:\\
+$\epsilon_{iu} = r_{iu} - q_i * p_u^T$
+
+$q_i \leftarrow q_i + \eta(\epsilon_{iu}p_u - \lambda q_i)$
+
+$p_u \leftarrow p_u + \eta(\epsilon_{iu}q_i - \lambda p_u)$
+
+$b_i \leftarrow b_i + \eta(\epsilon_{iu} - \lambda b_i)$
+
+$b_u \leftarrow b_u + \eta(\epsilon_{iu} - \lambda b_u)$
+
+Where $\eta$ is the learning rate.
+
 And plot the following:\\
 
 \begin{figure}[H]
@@ -152,10 +166,10 @@ Power Iteration CPU time(40 Iterations): 13.341 ms\\
 MC Algorithm with R=1, \\
 \indent CPU time: 0.701 ms\\
 \indent Average errors at Top 10, 30, 50, 100:\\
-\indent 0.00599973764402
-0.00441903540367
-0.00382855792613
-0.00278851518353\\
+0.0028874375033 \\
+0.00381215746702\\
+0.00337883645241\\
+0.00257711933559\\
 
 \begin{figure}[H]
 \centering
@@ -167,10 +181,10 @@ MC Algorithm with R=1, \\
 MC Algorithm with R=3, \\
 \indent CPU time: 1.800 ms\\
 \indent Average errors at Top 10, 30, 50, 100:\\
-\indent 0.00286852638452
-0.00230089827846
-0.00215804468585
-0.00161800054821 \\
+0.00258007835315 \\
+0.00231232051217 \\
+0.00199818494762 \\
+0.00149559856577 \\
 
 \begin{figure}[H]
 \centering
@@ -182,10 +196,10 @@ MC Algorithm with R=3, \\
 MC Algorithm with R=5, \\
 \indent CPU time: 2.577 ms\\
 \indent Average errors at Top 10, 30, 50, 100:\\
-\indent 0.00180054177408
-0.00186604175378
-0.00156090753574
-0.00123437019707\\
+0.00299232555129 \\
+0.00228341943338 \\
+0.00180001027051 \\
+0.00131482088127\\
 
 \begin{figure}[H]
 \centering
@@ -296,8 +310,8 @@ $s_B(x, y) = C2\frac{
 Where $w_i(x)$ is the weight of the $i_{th}$ edge originating from $x$.
 
 \subsection{(c)}
-In $K_{2,1}$, $s_A(1, 2) = 0.512$ \\
-In $K_{2,2}$, $s_A(1, 2) = 0.256$ \\
+In $K_{2,1}$, $s_A(1, 2) = 0.800$ \\
+In $K_{2,2}$, $s_A(1, 2) = 0.624$ \\
 
 Intermediate results for $K_{2,1}$: \\
 \begin{myenv}{0.8}
@@ -356,11 +370,6 @@ $s_B$:\\
 (2, 2): 1.000000 \\
 \end{myenv}
 
-\subsection{(d)}
-TODO
-
-\subsection{(e)}
-TODO
 
 \section{Question 4 -- Dense Communities in Networks}
 \subsection{(a)}

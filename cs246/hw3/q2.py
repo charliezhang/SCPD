@@ -21,7 +21,7 @@ def load_graph(file):
 def power_iter(G, iter):
   r = defaultdict(float)
   for i in xrange(1, N + 1):
-    r[i] = 1 / N
+    r[i] = 1.0 / N
 
   for i in xrange(0, iter):
     r_new = defaultdict(float)
