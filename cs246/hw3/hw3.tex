@@ -77,7 +77,7 @@ Update model as:\\
 $R_{iu} = \mu + b_u + b_i + q_i\cdot p_u^T$ \\
 
 The update equations are:\\
-$\epsilon_{iu} = r_{iu} - q_i * p_u^T$
+$\epsilon_{iu} = r_{iu} - \mu - b_u - b_i - q_i * p_u^T$
 
 $q_i \leftarrow q_i + \eta(\epsilon_{iu}p_u - \lambda q_i)$
 
@@ -161,7 +161,7 @@ So $E[\tilde{r_j}] = r_j$
 Expected run time of one random walker $E[w] = \sum_{i=1}^{\infty}i(1-\beta)\beta^{i-1}=\frac{1}{1-\beta}$\\
 Expected running time of MC algorithm is: $E[w]\cdot nR = \frac{nR}{1-\beta}$
 
-\subsection{(d)}
+\subsection{(e)}
 Power Iteration CPU time(40 Iterations): 13.341 ms\\
 MC Algorithm with R=1, \\
 \indent CPU time: 0.701 ms\\
@@ -213,7 +213,7 @@ MC Algorithm with R=5, \\
 $s_A(camera, phone) = 0.343$\\
 $s_A(camera, printer) = 0.0$\\
 
-If first iteration, $s_A(camera, phone) = \\ C1\frac{s_B(nokia, nokia) +  s_B(nokia, apple) + s_B(kodak, nokia) + s_B(kodak, apple) + s_B(cannon, nokia) + s_B(cannon, apple)}{6} = \\ C1\frac{1 + 0 + 0 + 0 + 0 + 0}{6} = 0.133$ \\
+In first iteration, $s_A(camera, phone) = \\ C1\frac{s_B(nokia, nokia) +  s_B(nokia, apple) + s_B(kodak, nokia) + s_B(kodak, apple) + s_B(cannon, nokia) + s_B(cannon, apple)}{6} = \\ C1\frac{1 + 0 + 0 + 0 + 0 + 0}{6} = 0.133$ \\
 Intermediate results (Nodes are indexed based on the order in graph, e.g. 'cameras' == 1, 'phones' == 2): \\
 \begin{myenv}{0.8}
 Round 1:\\ 
@@ -415,6 +415,9 @@ and for $K_{2,2}$: \\
 
 The algorithm assigns higher score for $s_A(1, 2)$ in $K_{2,2}$ since there are more support.
 
+\subsection{(e)}
+Suppose we have two random walkers, one starting at $x \in A$, one starting at $y \in A$, in each iteration, if the walkers are in $A$, the process terminates with probability of (1 - C1), otherwise they walk to one of their neighbor nodes in $B$ with uniform probability respectively. If the walkers are in $B$,  the process terminates with probability of (1 - C2), otherwise  they walk to one of their neighbor nodes in $A$ with uniform probability respectively. Then $s_A(x, y)$ is the probability that the two random walkers from $x, y$ meet each other at some time, (at any round of the iteration).
+
 \section{Question 4 -- Dense Communities in Networks}
 \subsection{(a)}
 \subsubsection{(i)}
@@ -494,7 +497,7 @@ $\rho(\bar S) = \max\limits_{i=1}^{Num Iter}\{ \rho(S_i)\} \ge \rho(S_j) \ge \fr
 \end{figure}
 
 \subsubsection{(iii)}
-The Graph become empty after removing 9 iterations. (After 9 dense communities being found) \\
+
 The plot of $\rho(\bar S_j), |E[\bar S_j]|$ and $|\bar S_j|$: \\
 
 \begin{figure}[H]

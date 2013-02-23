@@ -35,10 +35,8 @@ def count_edge(graph_file, S):
 
 def find_dense(graph_file, eps, removed=None):
   V, e = preprocess(graph_file, removed)
-  if removed:
-    V.difference_update(removed)
-    if len(V) == 0:
-      return None, None, None, None, None
+  if len(V) == 0:
+    return None, None, None, None, None
   S_bar = copy.copy(V)
   rho_S_bar = float(e) / len(V)
   S = copy.copy(V)
@@ -64,14 +62,11 @@ def find_dense(graph_file, eps, removed=None):
     rho_S = float(num_edge) / len(S)
 
     A = sets.Set()
-    num_edge_remove = 0
     for v in S:
       if deg[v] <= 2 * (1 + eps) * rho_S:
         A.add(v)
-        num_edge_remove += deg[v]
-    num_edge_remove /= 2
-    num_edge -= num_edge_remove
     S.difference_update(A)
+    num_edge = count_edge(graph_file, S)
     if len(S) == 0:
       break
     rho_S = float(num_edge) / len(S)
@@ -89,15 +84,14 @@ def main():
   parser.add_option("-f", "--file", dest="file", type="string",
                     help="File containing the graph.")
   (options, args) = parser.parse_args()
-
-  #for eps in [0.05, 0.1, 0.5, 1, 2]:
-  for eps in [0.05]:
+  '''
+  for eps in [0.05, 0.1, 0.5, 1, 2]:
     S_bar, num_iter, list_rho, list_num_edge, list_size_s = find_dense(options.file, eps)
     print "Eps: %f, num iteration: %d" % (eps, num_iter)
     print list_rho
     print list_num_edge
     print list_size_s
-
+  '''
   removed = sets.Set()
   eps = 0.05
   list_rho = []
