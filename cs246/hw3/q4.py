@@ -84,14 +84,14 @@ def main():
   parser.add_option("-f", "--file", dest="file", type="string",
                     help="File containing the graph.")
   (options, args) = parser.parse_args()
-  '''
+  
   for eps in [0.05, 0.1, 0.5, 1, 2]:
     S_bar, num_iter, list_rho, list_num_edge, list_size_s = find_dense(options.file, eps)
     print "Eps: %f, num iteration: %d" % (eps, num_iter)
     print list_rho
     print list_num_edge
     print list_size_s
-  '''
+  
   removed = sets.Set()
   eps = 0.05
   list_rho = []
