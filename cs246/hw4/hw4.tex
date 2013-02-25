@@ -1,0 +1,95 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{CS246 Homework 4 Answers}
+\author{Charlie Zhang}
+\date{Feb 2013}
+
+\usepackage{natbib}
+\usepackage{float}
+\usepackage{graphicx}
+ \usepackage{indentfirst}
+\usepackage{mathtools}
+\usepackage{setspace}
+\linespread{1.8}
+\newenvironment{myenv}[1]
+  {\begin{spacing}{#1}}
+  {\end{spacing}}
+  
+\begin{document}
+
+\maketitle
+\section{Question 1 --Support Vector Machine}
+
+
+\subsection{(a)}
+The example:\\
+(0, 0): -1 \\
+(0, 1): -1 \\
+(1, 0): 1 \\
+(1, 1): 1 \\
+(2, 0): -1 \\
+This is unfeasible under hard constraints SVM but feasible under soft margin SVM. \\
+Such as: $w = (2, 0), b = -1, \xi_1, .., \xi_5 = (0, 0, 0, 0, 4)$
+
+\subsection{(b)}
+Lets set: \\
+$w_j = 0, \forall j = 1, ..., d, \\
+ b = 0, \\
+ \xi_i =  1, \forall i = 1, ..., n$ \\
+ Then $y_i(w\cdot x + b) \ge 1 - \xi_i$ holds true for all i.
+
+\subsection{(c)}
+Let $T$ be the training set and $E$ be the set of points where linear classification mis-classified. \\
+Then $y_i(x_i\cdot w + b) < 0, \forall i \in E$. \\
+Also, $(w, \xi_i, ..., \xi_n)$ is a feasible point, so $y_i(x_i\cdot w + b) \ge 1 - \xi_i, \forall i \in T$
+Now we have $1 - \xi_i < 0$, i.e., $\xi_i > 1$, $\forall i \in E$\\
+So $\sum\limits_{i\in T}\xi_i >= \sum\limits_{i\in E}\xi_i > |E|$\\
+
+\subsection{(d)}
+$\nabla_b  f(w, b) = \frac{\delta f(w, b)}{\delta b} = C\sum\limits_{i=1}^{n}\frac{\delta L(x_i, y_i)}{\delta b}$ \\
+Where $\frac{\delta L(x_i, y_i)}{\delta b} = \left\{ 
+  \begin{array}{l l}
+    0 & \quad \text{if $y_i(w\cdot x_i+b)\ge 1$}\\
+    -y_i & \quad \text{otherwise}
+  \end{array} \right. $
+
+\subsection{(e)}
+
+\section{Question 2 --Decision Tree Learning}
+\subsection{(a)}
+$G = max[I(D) - (I(D_L) + I(D_R))]$\\
+There we only consider one attribute, so:\\
+ $G = I(D) - (I(D_L) + I(D_R)) = \\ |D| \times (1-\sum\limits_ip_i^2) - |D_L| \times (1-\sum\limits_ip_{L(i)}^2) - |D_R| \times (1-\sum\limits_ip_{R(i)}^2) = \\
+ |x + y + u + v| * ((1 - \frac{(x+u)^2}{(x+y+u+v)^2}) + (1 - \frac{(y+v)^2}{(x+y+u+v)^2})) -
+ |x + y| * ((1 - \frac{x^2}{x+y)^2}) + (1 - \frac{y^2}{x+y)^2})) -
+ |u + v| * ((1 - \frac{u^2}{u+v)^2}) + (1 - \frac{v^2}{u+v)^2})) = \\
+ \frac{x^2+y^2}{x+y}+ \frac{u^2+v^2}{u+v} - \frac{(x+u)^2+(y+v)^2}{x+y+u+v} > 0$\\
+ Solve the inequality and we get $(xv - yu)^2 > 0$. \\
+ So $\frac{x}{y} \ne \frac{u}{v}$.
+ 
+ 
+ \subsection{(b)}
+ based on the equation in (a), we have: \\
+ $G_{wine} = \frac{30^2+20^2}{50}+ \frac{30^2+20^2}{50} - \frac{60^2+40^2}{100} = 0$ \\
+ $G_{running} = \frac{20^2+10^2}{30}+ \frac{40^2+30^2}{70} - \frac{60^2+40^2}{100} = 0.381$ \\
+ $G_{pizza} = \frac{50^2+30^2}{80}+ \frac{10^2+10^2}{20} - \frac{60^2+40^2}{100} = 0.500$ \\
+ We should use the attribute 'likes pizza'
+
+
+The code:
+
+\begin{myenv}{0.8}
+\begin{verbatim}
+
+    print S_bar
+  print list_rho
+  print list_num_edge
+  print list_size_s
+
+if __name__ == '__main__':
+  main()
+\end{verbatim}
+\end{myenv}
+
+\end{document}
