@@ -77,6 +77,20 @@ There we only consider one attribute, so:\\
  We should use the attribute 'likes pizza'
 
 
+\section{Question 3 --Clustering Data Streams}
+\subsection{(a)}
+TODO
+
+\subsection{(b)}
+TODO \\
+$2\cdot cost_w(\hat S,T) + 2\sum\limits_{i=1}^{l}cost(S_i, T_i) = \\
+2 \sum\limits_{i=1}^{l}\sum\limits_{j=1}^{k}|S_{ij}|d(t_{ij}, T)^2 + 2\sum\limits_{i=1}^{l}\sum\limits_{j=1}^{k}\sum\limits_{x \in S_{ij}} d(x,t_{ij})^2 = \\
+\sum\limits_{i=1}^{l}\sum\limits_{j=1}^{k}\sum\limits_{x \in S_{ij}} (2d(x,t_{ij})^2 + 2d(t_{ij},T)^2) \ge \\
+\sum\limits_{i=1}^{l}\sum\limits_{j=1}^{k}\sum\limits_{x \in S_{ij}}d(x,T)^2 =\\
+cost(S,T)$
+
+\subsection{(c)}
+
 The code:
 
 \begin{myenv}{0.8}

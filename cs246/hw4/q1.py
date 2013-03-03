@@ -1,6 +1,6 @@
 import time
 
-d = 123
+d = 122
 batch_size = 10
 
 def load(file):
@@ -49,7 +49,7 @@ def svm(x, y, C, eta, eps, mode):
     per_c = abs(last_c - c) * 100 / last_c
     delta_c = .5 * delta_c + .5 * per_c
 
-    # print 'Mode: %s, Cost: %f, Perc_C: %f, Delta_Cost: %f, Time: %f' % (mode, c, per_c, delta_c, time.clock() - start)
+    print 'Mode: %s, Cost: %f, Perc_C: %f, Delta_Cost: %f, Time: %f' % (mode, c, per_c, delta_c, time.clock() - start)
     if (mode == 'bgd' and per_c < eps) or delta_c < eps:
       break
     last_c = c
@@ -57,7 +57,7 @@ def svm(x, y, C, eta, eps, mode):
     l = (l + 1) % (n / batch_size)
     times.append(time.clock() - start)
     costs.append(c)
-  # print 'Mode %s, num iter %d\n time:\n%s\ncosts:\n%s\n' % (mode, len(times), str(times), str(costs))
+  print 'Mode %s, num iter %d\n time:\n%s\ncosts:\n%s\n' % (mode, len(times), str(times), str(costs))
   return w, b
 
 def error(w, b, x, y):
@@ -69,12 +69,11 @@ def main():
   assert(len(x) == len(y))
   assert(len(x[0]) == d)
 
-  ''' q1 - (e)
+  ''' q1 - (e) '''
   svm(x, y, 100, 0.0000003, 0.25, 'bgd')
   svm(x, y, 100, 0.0001, 0.001, 'sgd')
   svm(x, y, 100, 0.000001, 0.01, 'mbgd')
-  '''
-
+  return
   ''' q1 - (f) '''
   x_train = load('q1-data/features.train.txt')
   y_train = load('q1-data/target.train.txt')
