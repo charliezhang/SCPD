@@ -359,7 +359,31 @@ Maximum space requirement = \\ Space for storing $S_i$ and run ALG on $S_i$ plus
 With choices of $l = \sqrt{\frac{n}{k}}$, assuming that we know $n$ ahead, \\
 ALGSTR works with O($\sqrt{nk}$) space.
 
+\section{Question 4 -- Data Streams}
+\subsection{(a)}
+Every occurrence of $i$, we increment the count $c_{j,h_j(i)}$, $\forall j \in [[1; [log\frac{1}{\delta}]]]$. \\
+Suppose there are no other elements than $i$ in the stream, then $c_{j,h_j(i)} = F[i]$, $\forall j \in [[1; [log\frac{1}{\delta}]]]$ \\ 
+In this case $min_j\{c_{j,h_j(i)}\} = F[i]$ \\
+Since there could be other elements in the stream that collides with $i$ in hashed values, so overall, $\tilde F[i] = min_j\{c_{j,h_j(i)}\} \ge F[i]$
 
+\subsection{(b)}
+Since $h_j$ maps \{1,2,...n\} to $\{1,2,...[\frac{e}{\epsilon}]\}$ uniformly, the expected number of other elements falls in $c_{j,h_j(i)}$ for hash function $j$ is: \\
+$\frac{(t-F[i])}{[\frac{e}{\epsilon}]}$. \\
+So, for any $1 \le i \le n$ and $1 \le j \le [log\frac{1}{\delta}]$ ,  $E[c_{j, h_j}] = F[i] + \frac{(t-F[i])}{[\frac{e}{\epsilon}]} \le F[i]+\frac{\epsilon}{e}(t-F[i])$.
+
+\subsection{(c)}
+$Pr[\tilde F[i]\le F[i]+\epsilon t] = 1-(Pr[c_{j,h_j(i)} > F[i] + \epsilon t])^{[log\frac{1}{\delta}]}$ \\
+Based on Markov's Inequality, \\ $Pr[c_{j,h_j(i)} > F[i] + \epsilon t]  =  \\
+Pr[c_{j,h_j(i)} - F[i] > \epsilon t]  \le \\
+ \frac{E[c_{j,h_j(i)} - F[i]]}{\epsilon t} \le \\
+  \frac{F[i]+\frac{\epsilon}{e}(t-F[i]) - F[i]}{\epsilon t} \le   \frac{\frac{\epsilon}{e}t}{\epsilon t} = \frac{1}{e}$
+So $Pr[\tilde F[i]\le F[i]+\epsilon t] =  \\
+1-(Pr[c_{j,h_j(i)} > F[i] + \epsilon t])^{[log\frac{1}{\delta}]} \ge
+1 - \frac{1}{e}^{log\frac{1}{\delta}} = 1 - \delta$ \\
+
+\subsection{(d)}
+In HW3-Q4, we need $O(n)$ extra memory to keep track of the degree of each node, where $n$ is the number of nodes.\\
+With the approach provided above, we can bring down the extra memory requirement from $O(n)$ to $O(log[\frac{1}{\delta}])$.
 
 \begin{myenv}{0.8}
 \begin{verbatim}
