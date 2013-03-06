@@ -1,3 +1,4 @@
+import random
 import time
 
 d = 122
@@ -29,6 +30,7 @@ def fb(w, b, x, y):
   return sum([-y[i][0] for i in xrange(0, len(x)) if pred(w, b, x[i], y[i]) < 1])
 
 def svm(x, y, C, eta, eps, mode):
+  random.shuffle(x)
   w, b = [.0 for i in xrange(0, d)], .0
   n = len(x)
   last_c, delta_c = cost(w, b, C, x, y), .0
