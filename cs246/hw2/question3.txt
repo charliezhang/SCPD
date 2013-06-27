@@ -1,0 +1,27 @@
+(a)
+
+(b)
+In step 3:
+Let phi(i-1) be the cost before re-calculating centroid.
+And phi(i)' be the cost after re-calculating centroid.
+Based on the proof in (a), re-calculating the centroid give us an improvment of |S|*||c(S)-z||^2
+phi(i)' = phi(i-1) - |S|*||c(S)-z||^2
+
+After re-assigning points to the nearest centroid, we have phi(i) <= phi(i)'
+
+so phi(i) <= phi(i)' <= phi(i-1). so after each iteration phi(i+1) <= phi(i)
+
+(c)
+For each iteration, we have phi(i+1) <= phi(i), independently from the dataset and the initial clusters.
+And cost function has a lowerbound >= 0, so it always converges to
+a finite value.
+
+(d)
+Suppose we have four data points in 2D space, and K=2. (0, 0), (0, r^0.5), (1, 0), (1, r^0.5)
+K-means may converge to either (0, r^0.5/2), (1, r^0.5/2) or (1/2, 0), (1/2, r^0.5)
+The optimal clustering has cost 1, But if the initialization is (0, r^0.5/2), (1, r^0.5/2), the final cost would be r.
+
+
+
+
+

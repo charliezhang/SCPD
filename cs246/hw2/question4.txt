@@ -1,0 +1,21 @@
+(c)
+c2(non-random) is better than c1(random) in terms of cost and also the cost reduction rate.
+Initial cost:
+c1: 623660345
+c2: 438747790
+
+Cost after 10 iterations:
+c1: 458490656
+c2: 102237203
+
+Percentage change in 10 iterations:
+c1: dropped 26.5%
+c2: dropped 76.7%
+
+(d)
+Top 5:
+57: instillation
+56: methoxyfenozide
+55: sodium-sensitive
+19: post-infectious
+21: teleological

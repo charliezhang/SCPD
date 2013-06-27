@@ -1,0 +1,12 @@
+(a)
+Let's define random variable X as sigma(j=1,L | T intersect Wj)
+Exp(X) = L * n(T) * Pr[x = z] where x in T < L * n * p2^k  = L * n * p2 ^ (log(1/p2, n)) = L
+Based on Markov's Inequality, Pr[X > 3L] < Exp(X) / 3L = 1 / 3.
+
+(b)
+
+
+(d)
+time: 0.104638 seconds. 1.618231 seconds.
+error = 1.1034
+
